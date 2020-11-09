@@ -9,9 +9,24 @@ namespace Chat.Server
 {
     public class Startup
     {
+        const string AllowWebChatOrigins = "AllowWebChatOrigins";
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowWebChatOrigins,
+                    builder =>
+                    {
+                        builder
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .WithOrigins("http://localhost:4200");
+                    });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -22,6 +37,7 @@ namespace Chat.Server
             }
 
             app.UseRouting();
+            app.UseCors(AllowWebChatOrigins);
 
             app.UseEndpoints(endpoints =>
             {
