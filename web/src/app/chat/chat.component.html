@@ -1,1 +1,29 @@
-<p>chat works!</p>
+<h1>
+  Chat <small>{{ chatConnected ? "(online)" : "offline" }}</small>
+</h1>
+
+<section>
+  <div *ngFor="let message of messages">
+    <strong>{{ message.sender }}: </strong><span>{{ message.content }}</span>
+  </div>
+</section>
+
+<label for="userName">Username</label>
+<input
+  type="text"
+  name="userName"
+  id="userName"
+  [formControl]="userNameControl"
+  autocomplete="false"
+/>
+<br />
+<form [formGroup]="chatForm" (submit)="sendMessage()">
+  <label for="message">Message</label>
+  <input
+    type="text"
+    name="message"
+    id="message"
+    formControlName="message"
+  />
+  <input type="submit" value="Send" *ngIf="chatConnected" />
+</form>
