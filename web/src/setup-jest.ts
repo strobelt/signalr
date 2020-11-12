@@ -1,2 +1,3 @@
 import 'jest-preset-angular';
-//Error.stackTraceLimit = 2;
+
+Error.stackTraceLimit = 2;
